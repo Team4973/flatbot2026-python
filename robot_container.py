@@ -1,0 +1,66 @@
+"""
+RobotContainer - Hardware setup and button bindings for Flatbot.
+
+This file creates the motor, controller, and connects buttons to actions.
+Think of it as the "wiring diagram" between hardware and software.
+
+See WIRING.md for the physical wiring map (PDH channels, CAN IDs, etc.)
+"""
+
+import wpilib
+from commands2 import InstantCommand
+from commands2.button import CommandXboxController
+from phoenix6.hardware import TalonFX
+
+
+class RobotContainer:
+    """
+    Sets up hardware and connects controller buttons to robot actions.
+
+    Controls:
+        A button (hold): Spin motor at current speed
+        A button (release): Stop motor
+        D-pad up: Increase speed by 0.05
+        D-pad down: Decrease speed by 0.05
+    """
+
+    def __init__(self):
+        # Power Distribution Hub (REV-11-1850) on CAN ID 1
+        # Monitors power to all channels - see WIRING.md for channel assignments
+        self.pdh = wpilib.PowerDistribution(1, wpilib.PowerDistribution.ModuleType.kRev)
+
+        # Hardware setup
+        self.motor = TalonFX(30)  # TalonFX on CAN ID 30
+
+        # Driver controller
+        self.controller = CommandXboxController(0)  # Xbox controller on port 0
+
+        # Motor speed (adjustable via D-pad)
+        self.speed = 0.1
+
+        # Connect buttons to actions
+        self._configure_button_bindings()
+
+    def _configure_button_bindings(self):
+        """Wire up controller buttons to robot actions."""
+        # A button: hold to spin motor, release to stop
+        self.controller.a().onTrue(InstantCommand(self._start_motor))
+        self.controller.a().onFalse(InstantCommand(self._stop_motor))
+
+        # D-pad: adjust speed
+        self.controller.povUp().onTrue(InstantCommand(lambda: self._change_speed(0.05)))
+        self.controller.povDown().onTrue(InstantCommand(lambda: self._change_speed(-0.05)))
+
+    def _start_motor(self):
+        """Spin the motor at the current speed."""
+        print(f"Motor set at {self.speed}")
+        self.motor.set(self.speed)
+
+    def _stop_motor(self):
+        """Stop the motor."""
+        self.motor.set(0.0)
+
+    def _change_speed(self, delta: float):
+        """Adjust the motor speed by the given amount."""
+        self.speed += delta
+        print(f"Speed changed to {self.speed}")
