@@ -17,13 +17,13 @@ dev = [
 
 [tool.robotpy]
 # RobotPy version - check https://robotpy.readthedocs.io for latest
-robotpy_version = "2025.1.1"
+robotpy_version = "2026.2.1"
 
 # Robot class entry point
 robot_class = "robot.Robot"
 
-# Additional RobotPy components
-robotpy_extras = [
+# Additional RobotPy components (renamed from robotpy_extras in 2026)
+components = [
     "commands2",  # Command-based framework
 ]
 
