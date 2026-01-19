@@ -16,6 +16,9 @@ dev = [
 ]
 
 [tool.robotpy]
+# Team number for deploy/sync commands
+team = 4973
+
 # RobotPy version - check https://robotpy.readthedocs.io for latest
 robotpy_version = "2026.2.1"
 
