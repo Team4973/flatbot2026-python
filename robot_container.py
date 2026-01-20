@@ -11,6 +11,7 @@ import wpilib
 from commands2 import InstantCommand
 from commands2.button import CommandXboxController
 from phoenix6.hardware import TalonFX
+from wpilib import SmartDashboard
 
 
 class RobotContainer:
@@ -64,3 +65,11 @@ class RobotContainer:
         """Adjust the motor speed by the given amount."""
         self.speed += delta
         print(f"Speed changed to {self.speed}")
+
+    def update_telemetry(self):
+        """Publish motor data to SmartDashboard for simulator visibility."""
+        SmartDashboard.putNumber("Motor/Target Speed", self.speed)
+        SmartDashboard.putNumber("Motor/Output", self.motor.get())
+        SmartDashboard.putNumber("Motor/Velocity (rps)", self.motor.get_velocity().value)
+        SmartDashboard.putNumber("Motor/Position (rot)", self.motor.get_position().value)
+        SmartDashboard.putNumber("Motor/Voltage", self.motor.get_motor_voltage().value)
