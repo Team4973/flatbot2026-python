@@ -47,6 +47,22 @@ The PDH has 20 high-current channels (0-19, up to 40A each) and 3 low-current sw
 |--------|--------|------|----------|
 | 1 | Power Distribution Hub | REV-11-1850 | Main board |
 | 30 | TalonFX | Motor controller | Test motor |
+| 39 | Pigeon 2 | IMU | TBD |
+
+## Network Devices
+
+| IP Address | Device | Hostname | Notes |
+|------------|--------|----------|-------|
+| 10.49.73.1 | RoboRIO | roboRIO-4973-FRC.local | Default |
+| 10.49.73.11 | Orange Pi 5 | photonvision.local | PhotonVision coprocessor |
+
+**PhotonVision Web UI**: http://10.49.73.11:5800
+
+## Voltage Regulators
+
+| Name | Input Source | Output | Devices Powered |
+|------|--------------|--------|-----------------|
+| VRM-2 | PDH 12V low-current block (ch TBD) | 12V | Pigeon 2 IMU |
 
 ## Future Additions
 

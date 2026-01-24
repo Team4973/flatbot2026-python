@@ -37,6 +37,7 @@ class Robot(wpilib.TimedRobot):
     def robotPeriodic(self):
         """Called every 20ms. Runs the command scheduler to process button presses."""
         CommandScheduler.getInstance().run()
+        self.container.update_telemetry()
 
     def autonomousInit(self):
         """Called once when autonomous mode starts."""
