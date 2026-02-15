@@ -32,14 +32,19 @@ class RobotContainer:
         self.pdh = wpilib.PowerDistribution(1, wpilib.PowerDistribution.ModuleType.kRev)
 
         # Hardware setup
-        self.motor = TalonFX(30)  # TalonFX on CAN ID 30
+        # self.motor = TalonFX(30)  # TalonFX on CAN ID 30
+        self.motor = TalonFX(30)
+        self.motor1 = TalonFX(32)
+        self.motor2 = TalonFX(33)
+        self.motor3 = TalonFX(34)
+
 
         # Pigeon 2 IMU on CAN ID 39
         # Note: Pigeon2 causes timeout in simulation, only init on real robot
-        if wpilib.RobotBase.isReal():
-            self.imu = Pigeon2(39)
-        else:
-            self.imu = None
+       # if wpilib.RobotBase.isReal():
+       #    # self.imu = Pigeon2(2)
+       # else:
+       #    # self.imu = None
 
         # Driver controller
         self.controller = CommandXboxController(0)  # Xbox controller on port 0
@@ -60,17 +65,27 @@ class RobotContainer:
         self.controller.b().onTrue(InstantCommand(self.zero_heading))
 
         # D-pad: adjust speed
-        self.controller.povUp().onTrue(InstantCommand(lambda: self._change_speed(0.05)))
-        self.controller.povDown().onTrue(InstantCommand(lambda: self._change_speed(-0.05)))
+        self.controller.povUp().onTrue(InstantCommand(lambda: self._change_speed(0.02)))
+        self.controller.povDown().onTrue(InstantCommand(lambda: self._change_speed(-0.02)))
 
     def _start_motor(self):
         """Spin the motor at the current speed."""
         print(f"Motor set at {self.speed}")
         self.motor.set(self.speed)
+        self.motor1.set(self.speed)
+        self.motor2.set(0.01)
+        self.motor3.set(0.01)
+
+
 
     def _stop_motor(self):
         """Stop the motor."""
         self.motor.set(0.0)
+        self.motor1.set(0.0)
+        self.motor2.set(0.0)
+        self.motor3.set(0.0)
+
+
 
     def _change_speed(self, delta: float):
         """Adjust the motor speed by the given amount."""
@@ -87,10 +102,10 @@ class RobotContainer:
         SmartDashboard.putNumber("Motor/Voltage", self.motor.get_motor_voltage().value)
 
         # IMU telemetry (only on real robot)
-        if self.imu is not None:
-            SmartDashboard.putNumber("IMU/Yaw (deg)", self.imu.get_yaw().value)
-            SmartDashboard.putNumber("IMU/Pitch (deg)", self.imu.get_pitch().value)
-            SmartDashboard.putNumber("IMU/Roll (deg)", self.imu.get_roll().value)
+        #if self.imu is not None:
+        #   # SmartDashboard.putNumber("IMU/Yaw (deg)", self.imu.get_yaw().value)
+        #   # SmartDashboard.putNumber("IMU/Pitch (deg)", self.imu.get_pitch().value)
+        #    SmartDashboard.putNumber("IMU/Roll (deg)", self.imu.get_roll().value)
 
     def zero_heading(self):
         """Reset the IMU yaw to zero."""
