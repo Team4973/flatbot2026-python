@@ -32,25 +32,24 @@ class RobotContainer:
         self.pdh = wpilib.PowerDistribution(1, wpilib.PowerDistribution.ModuleType.kRev)
 
         # Hardware setup
-        # self.motor = TalonFX(30)  # TalonFX on CAN ID 30
-        self.motor = TalonFX(30)
-        self.motor1 = TalonFX(32)
-        self.motor2 = TalonFX(33)
-        self.motor3 = TalonFX(34)
+        self.motor = TalonFX(30)    # TalonFX on CAN ID 30
+        self.motor1 = TalonFX(32)    # TalonFX on CAN ID 32
+        self.motor2 = TalonFX(33)    # TalonFX on CAN ID 33
+        self.motor3 = TalonFX(34)    # TalonFX on CAN ID 34
 
 
         # Pigeon 2 IMU on CAN ID 39
         # Note: Pigeon2 causes timeout in simulation, only init on real robot
-       # if wpilib.RobotBase.isReal():
-       #    # self.imu = Pigeon2(2)
-       # else:
-       #    # self.imu = None
+        if wpilib.RobotBase.isReal():
+             self.imu = Pigeon2(2)
+        else:
+           self.imu = None
 
         # Driver controller
         self.controller = CommandXboxController(0)  # Xbox controller on port 0
 
         # Motor speed (adjustable via D-pad)
-        self.speed = 0.1
+        self.speed = 0.01 # defulat speed is 1 percent power
 
         # Connect buttons to actions
         self._configure_button_bindings()
