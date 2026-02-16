@@ -43,7 +43,7 @@ class RobotContainer:
         if wpilib.RobotBase.isReal():
              self.imu = Pigeon2(2)
         else:
-           self.imu = None
+             self.imu = None
 
         # Driver controller
         self.controller = CommandXboxController(0)  # Xbox controller on port 0
@@ -101,10 +101,10 @@ class RobotContainer:
         SmartDashboard.putNumber("Motor/Voltage", self.motor.get_motor_voltage().value)
 
         # IMU telemetry (only on real robot)
-        #if self.imu is not None:
-        #   # SmartDashboard.putNumber("IMU/Yaw (deg)", self.imu.get_yaw().value)
-        #   # SmartDashboard.putNumber("IMU/Pitch (deg)", self.imu.get_pitch().value)
-        #    SmartDashboard.putNumber("IMU/Roll (deg)", self.imu.get_roll().value)
+        if self.imu is not None:
+           SmartDashboard.putNumber("IMU/Yaw (deg)", self.imu.get_yaw().value)
+           SmartDashboard.putNumber("IMU/Pitch (deg)", self.imu.get_pitch().value)
+           SmartDashboard.putNumber("IMU/Roll (deg)", self.imu.get_roll().value)
 
     def zero_heading(self):
         """Reset the IMU yaw to zero."""
